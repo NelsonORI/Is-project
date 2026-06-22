@@ -18,7 +18,7 @@
     </script>
 </head>
 <body class="bg-gray-50 text-gray-800 flex h-screen overflow-hidden">
-
+    @php $student = Auth::guard('student')->user(); @endphp
     {{-- ==================== SIDEBAR ==================== --}}
     <aside class="w-52 bg-white border-r border-gray-200 flex flex-col flex-shrink-0">
 
@@ -35,30 +35,48 @@
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest px-2 mb-2">Menu</p>
                 <ul class="space-y-1">
                     <li>
-                        <a href="{{ route('student.dashboard') }}"
-                           class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
-                           {{ request()->routeIs('student.dashboard') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}">
+                        <a href="{{ $student->role === 'class_rep' ? route('classrep.dashboard') : route('student.dashboard') }}"
+                            class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
+                            {{ request()->routeIs('student.dashboard') || request()->routeIs('classrep.dashboard') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}">
                             <span>📊</span> Dashboard
                         </a>
                     </li>
                     <li>
                         <a href="#"
-                           class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
+                            class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
                             <span>🔍</span> Browse flashcards
                         </a>
                     </li>
                     <li>
                         <a href="#"
-                           class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
+                            class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
                             <span>🔖</span> Saved sets
                         </a>
                     </li>
                     <li>
                         <a href="#"
-                           class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
+                            class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
                             <span>🕐</span> Recent activity
                         </a>
                     </li>
+
+                    {{-- Class rep only --}}
+                    @if($student->role === 'class_rep')
+                        <li class="pt-1 border-t border-gray-100 mt-2">
+                            <a href="{{ route('classrep.upload.step1') }}"
+                            class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
+                            {{ request()->routeIs('classrep.upload*') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}">
+                                <span>📤</span> Upload Paper
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#"
+                            class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
+                                <span>📁</span> My Uploads
+                            </a>
+                        </li>
+                    @endif
+
                 </ul>
             </div>
 
@@ -68,13 +86,13 @@
                 <ul class="space-y-1">
                     <li>
                         <a href="#"
-                           class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
+                            class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
                             <span>👤</span> Profile
                         </a>
                     </li>
                     <li>
                         <a href="#"
-                           class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
+                            class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
                             <span>⚙️</span> Settings
                         </a>
                     </li>
@@ -104,7 +122,6 @@
 
             {{-- Role Badge --}}
             <div>
-                @php $student = Auth::guard('student')->user(); @endphp
                 <span class="inline-block border border-gray-300 text-gray-600 text-xs font-medium px-3 py-1 rounded-full">
                     {{ $student->role === 'class_rep' ? 'Class Rep' : 'Student' }}
                 </span>

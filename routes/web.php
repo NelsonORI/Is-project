@@ -6,7 +6,17 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Student\StudentDashboardController;
+use App\Http\Controllers\ClassRep\ClassRepUploadController;
 
+/*
+|--------------------------------------------------------------------------
+| Root redirect
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/', function () {
+    return redirect()->route('login');
+});
 /*
 |--------------------------------------------------------------------------
 | Guest Routes — only accessible when not logged in
@@ -15,11 +25,11 @@ use App\Http\Controllers\Student\StudentDashboardController;
 
 Route::middleware('guest:student')->group(function () {
 
-    // Registration
+
     Route::get('/register', [RegisterController::class, 'show'])->name('register');
     Route::post('/register', [RegisterController::class, 'store']);
 
-    // Login
+    
     Route::get('/login', [LoginController::class, 'show'])->name('login');
     Route::post('/login', [LoginController::class, 'store']);
 
@@ -33,16 +43,16 @@ Route::middleware('guest:student')->group(function () {
 
 Route::middleware('auth:student')->group(function () {
 
-    // Show "please verify your email" page
+
     Route::get('/email/verify', [VerificationController::class, 'notice'])
         ->name('verification.notice');
 
-    // Handle verification link click
+    
     Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
         ->middleware('signed')
         ->name('verification.verify');
 
-    // Resend verification email
+    
     Route::post('/email/verification-notification', [VerificationController::class, 'resend'])
         ->middleware('throttle:6,1')
         ->name('verification.send');
@@ -55,8 +65,7 @@ Route::middleware('auth:student')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::post('/logout', [LogoutController::class, 'store'])
-    ->name('logout');
+Route::post('/logout', [LogoutController::class, 'store'])->name('logout');
 
 /*
 |--------------------------------------------------------------------------
@@ -66,7 +75,8 @@ Route::post('/logout', [LogoutController::class, 'store'])
 
 Route::middleware(['auth:student', 'student.active'])->group(function () {
 
-    Route::get('/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
+    Route::get('/dashboard', [StudentDashboardController::class, 'index'])
+        ->name('student.dashboard');
 
 });
 
@@ -82,9 +92,13 @@ Route::middleware(['auth:student', 'student.active', 'class.rep'])->group(functi
         return view('classrep.dashboard');
     })->name('classrep.dashboard');
 
-    Route::get('/classrep/upload', function () {
-        return view('classrep.upload');
-    })->name('classrep.upload');
+    Route::get('/classrep/upload',            [ClassRepUploadController::class, 'step1'])->name('classrep.upload.step1');
+    Route::post('/classrep/upload',           [ClassRepUploadController::class, 'step1Store']);
+    Route::get('/classrep/upload/metadata',   [ClassRepUploadController::class, 'step2'])->name('classrep.upload.step2');
+    Route::post('/classrep/upload/metadata',  [ClassRepUploadController::class, 'step2Store']);
+    Route::get('/classrep/upload/processing', [ClassRepUploadController::class, 'step3'])->name('classrep.upload.step3');
+    Route::post('/classrep/upload/process',   [ClassRepUploadController::class, 'process'])->name('classrep.upload.process');
+    Route::get('/classrep/upload/done',       [ClassRepUploadController::class, 'step4'])->name('classrep.upload.step4');
 
 });
 
