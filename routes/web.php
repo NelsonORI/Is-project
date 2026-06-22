@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Student\StudentDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,9 +66,7 @@ Route::post('/logout', [LogoutController::class, 'store'])
 
 Route::middleware(['auth:student', 'student.active'])->group(function () {
 
-    Route::get('/dashboard', function () {
-        return view('student.dashboard');
-    })->name('student.dashboard');
+    Route::get('/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
 
 });
 
