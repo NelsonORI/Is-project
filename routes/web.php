@@ -7,6 +7,8 @@ use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Student\StudentDashboardController;
 use App\Http\Controllers\ClassRep\ClassRepUploadController;
+use App\Http\Controllers\Student\StudyController;
+use App\Http\Controllers\ClassRep\ClassRepDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +19,7 @@ use App\Http\Controllers\ClassRep\ClassRepUploadController;
 Route::get('/', function () {
     return redirect()->route('login');
 });
+
 /*
 |--------------------------------------------------------------------------
 | Guest Routes — only accessible when not logged in
@@ -25,11 +28,9 @@ Route::get('/', function () {
 
 Route::middleware('guest:student')->group(function () {
 
-
     Route::get('/register', [RegisterController::class, 'show'])->name('register');
     Route::post('/register', [RegisterController::class, 'store']);
 
-    
     Route::get('/login', [LoginController::class, 'show'])->name('login');
     Route::post('/login', [LoginController::class, 'store']);
 
@@ -43,16 +44,13 @@ Route::middleware('guest:student')->group(function () {
 
 Route::middleware('auth:student')->group(function () {
 
-
     Route::get('/email/verify', [VerificationController::class, 'notice'])
         ->name('verification.notice');
 
-    
     Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
         ->middleware('signed')
         ->name('verification.verify');
 
-    
     Route::post('/email/verification-notification', [VerificationController::class, 'resend'])
         ->middleware('throttle:6,1')
         ->name('verification.send');
@@ -78,6 +76,9 @@ Route::middleware(['auth:student', 'student.active'])->group(function () {
     Route::get('/dashboard', [StudentDashboardController::class, 'index'])
         ->name('student.dashboard');
 
+    Route::get('/study/{document}', [StudyController::class, 'show'])
+        ->name('student.study');
+
 });
 
 /*
@@ -88,10 +89,9 @@ Route::middleware(['auth:student', 'student.active'])->group(function () {
 
 Route::middleware(['auth:student', 'student.active', 'class.rep'])->group(function () {
 
-    Route::get('/classrep/dashboard', function () {
-        return view('classrep.dashboard');
-    })->name('classrep.dashboard');
-
+    Route::get('/classrep/dashboard', [ClassRepDashboardController::class, 'index'])
+        ->name('classrep.dashboard');
+        
     Route::get('/classrep/upload',            [ClassRepUploadController::class, 'step1'])->name('classrep.upload.step1');
     Route::post('/classrep/upload',           [ClassRepUploadController::class, 'step1Store']);
     Route::get('/classrep/upload/metadata',   [ClassRepUploadController::class, 'step2'])->name('classrep.upload.step2');
@@ -114,14 +114,4 @@ Route::middleware(['auth:admin', 'admin'])->group(function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
 
-});
-
-/*
-|--------------------------------------------------------------------------
-| Root redirect
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/', function () {
-    return redirect()->route('login');
 });

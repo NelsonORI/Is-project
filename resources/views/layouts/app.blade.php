@@ -42,8 +42,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#"
-                            class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
+                        <a href="{{ route('student.dashboard') }}#find-flashcards"
+                            class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
+                            {{ request()->routeIs('student.dashboard') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}">
                             <span>🔍</span> Browse flashcards
                         </a>
                     </li>
