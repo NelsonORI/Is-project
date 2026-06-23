@@ -47,7 +47,7 @@
 
         {{-- Actions --}}
         <div class="flex gap-3 justify-center">
-            <a href="#"
+            <a href="{{ route('student.study', $summary['document_id']) }}"
                 class="border border-gray-300 text-gray-600 font-medium px-5 py-2.5 rounded-lg text-sm hover:bg-gray-50 transition">
                 View Flashcards
             </a>

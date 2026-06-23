@@ -7,6 +7,12 @@ use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Student\StudentDashboardController;
 use App\Http\Controllers\ClassRep\ClassRepUploadController;
+use App\Http\Controllers\Student\StudyController;
+use App\Http\Controllers\ClassRep\ClassRepDashboardController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\AdminDocumentController;
+use App\Http\Controllers\Admin\AdminGapReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +23,7 @@ use App\Http\Controllers\ClassRep\ClassRepUploadController;
 Route::get('/', function () {
     return redirect()->route('login');
 });
+
 /*
 |--------------------------------------------------------------------------
 | Guest Routes — only accessible when not logged in
@@ -25,11 +32,9 @@ Route::get('/', function () {
 
 Route::middleware('guest:student')->group(function () {
 
-
     Route::get('/register', [RegisterController::class, 'show'])->name('register');
     Route::post('/register', [RegisterController::class, 'store']);
 
-    
     Route::get('/login', [LoginController::class, 'show'])->name('login');
     Route::post('/login', [LoginController::class, 'store']);
 
@@ -43,16 +48,13 @@ Route::middleware('guest:student')->group(function () {
 
 Route::middleware('auth:student')->group(function () {
 
-
     Route::get('/email/verify', [VerificationController::class, 'notice'])
         ->name('verification.notice');
 
-    
     Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
         ->middleware('signed')
         ->name('verification.verify');
 
-    
     Route::post('/email/verification-notification', [VerificationController::class, 'resend'])
         ->middleware('throttle:6,1')
         ->name('verification.send');
@@ -88,9 +90,8 @@ Route::middleware(['auth:student', 'student.active'])->group(function () {
 
 Route::middleware(['auth:student', 'student.active', 'class.rep'])->group(function () {
 
-    Route::get('/classrep/dashboard', function () {
-        return view('classrep.dashboard');
-    })->name('classrep.dashboard');
+    Route::get('/classrep/dashboard', [ClassRepDashboardController::class, 'index'])
+        ->name('classrep.dashboard');
 
     Route::get('/classrep/upload',            [ClassRepUploadController::class, 'step1'])->name('classrep.upload.step1');
     Route::post('/classrep/upload',           [ClassRepUploadController::class, 'step1Store']);
@@ -116,12 +117,35 @@ Route::middleware(['auth:admin', 'admin'])->group(function () {
 
 });
 
-/*
-|--------------------------------------------------------------------------
-| Root redirect
-|--------------------------------------------------------------------------
-*/
+Route::middleware(['auth:student', 'student.active'])->group(function () {
+    Route::get('/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
+    Route::get('/study/{document}', [StudyController::class, 'show'])->name('student.study');
+});
 
-Route::get('/', function () {
-    return redirect()->route('login');
+Route::middleware(['auth:admin', 'admin'])->group(function () {
+
+    // Dashboard
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+
+    // Class rep approvals (from dashboard)
+    Route::post('/admin/classreps/{classRep}/approve', [AdminDashboardController::class, 'approveClassRep'])->name('admin.classreps.approve');
+    Route::post('/admin/classreps/{classRep}/reject', [AdminDashboardController::class, 'rejectClassRep'])->name('admin.classreps.reject');
+
+    // Users
+    Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.users');
+    Route::post('/admin/users/{student}/suspend', [AdminUserController::class, 'suspend'])->name('admin.users.suspend');
+    Route::post('/admin/users/{student}/activate', [AdminUserController::class, 'activate'])->name('admin.users.activate');
+    Route::post('/admin/users/{student}/revoke-classrep', [AdminUserController::class, 'revokeClassRep'])->name('admin.users.revoke-classrep');
+    Route::post('/admin/users/{student}/promote-classrep', [AdminUserController::class, 'promoteToClassRep'])->name('admin.users.promote-classrep');
+
+    // Documents
+    Route::get('/admin/documents', [AdminDocumentController::class, 'index'])->name('admin.documents');
+    Route::delete('/admin/documents/{document}', [AdminDocumentController::class, 'destroy'])->name('admin.documents.destroy');
+
+    // Class Reps page (full list, not just pending)
+    Route::get('/admin/classreps', [AdminUserController::class, 'index'])->name('admin.classreps');
+
+    // Gap Report
+    Route::get('/admin/gap-report', [AdminGapReportController::class, 'index'])->name('admin.gap-report');
+
 });

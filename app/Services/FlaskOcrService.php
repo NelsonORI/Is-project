@@ -17,10 +17,19 @@ class FlaskOcrService
     public function processDocument(string $storagePath, array $metadata): array
     {
         try {
+            $fileContents = \Illuminate\Support\Facades\Storage::get($storagePath);
+
+            if (!$fileContents) {
+                return [
+                    'success' => false,
+                    'error'   => 'Could not read the uploaded PDF file.',
+                ];
+            }
+
             $response = Http::timeout(120)
                 ->attach(
                     'pdf',
-                    file_get_contents(storage_path('app/' . $storagePath)),
+                    $fileContents,
                     basename($storagePath)
                 )
                 ->post("{$this->baseUrl}/process", [

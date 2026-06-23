@@ -195,7 +195,7 @@
                         </svg>
                         {{ $cardCount }} cards
                     </span>
-                    <a href="#"
+                    <a href="{{ route('student.study', $document->id) }}"
                         class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-1.5 rounded-lg transition">
                         Study
                     </a>
