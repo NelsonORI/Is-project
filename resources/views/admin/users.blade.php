@@ -107,6 +107,44 @@
 
                         </div>
                     </td>
+                    <td class="py-3 text-right">
+                        <div class="flex gap-1.5 justify-end">
+
+                            @if($user->status === 'suspended')
+                                <form method="POST" action="{{ route('admin.users.activate', $user->id) }}">
+                                    @csrf
+                                    <button type="submit" class="text-xs text-green-700 border border-green-200 hover:bg-green-50 rounded px-2 py-1">
+                                        Reactivate
+                                    </button>
+                                </form>
+                            @else
+                                <form method="POST" action="{{ route('admin.users.suspend', $user->id) }}"
+                                    onsubmit="return confirm('Suspend this account?');">
+                                    @csrf
+                                    <button type="submit" class="text-xs text-red-600 border border-red-200 hover:bg-red-50 rounded px-2 py-1">
+                                        Suspend
+                                    </button>
+                                </form>
+                            @endif
+
+                            @if($user->role === 'class_rep')
+                                <form method="POST" action="{{ route('admin.users.revoke-classrep', $user->id) }}"
+                                    onsubmit="return confirm('Revoke class rep status? Their uploaded content will remain on the platform.');">
+                                    @csrf
+                                    <button type="submit" class="text-xs text-gray-600 border border-gray-200 hover:bg-gray-50 rounded px-2 py-1">
+                                        Revoke Rep
+                                    </button>
+                                </form>
+                            @else
+                                <button type="button"
+                                    onclick="document.getElementById('promote-modal-{{ $user->id }}').classList.remove('hidden')"
+                                    class="text-xs text-indigo-600 border border-indigo-200 hover:bg-indigo-50 rounded px-2 py-1">
+                                    Make Class Rep
+                                </button>
+                            @endif
+
+                        </div>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
@@ -116,5 +154,40 @@
         {{ $users->links() }}
     </div>
 </div>
+
+{{-- Promote to Class Rep Modals --}}
+@foreach($users as $user)
+    @if($user->role !== 'class_rep')
+        <div id="promote-modal-{{ $user->id }}"
+            class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+            <div class="bg-white rounded-2xl p-6 w-full max-w-sm">
+                <h3 class="text-lg font-semibold text-gray-800 mb-1">Promote to Class Rep</h3>
+                <p class="text-sm text-gray-400 mb-4">
+                    Grant <span class="font-medium text-gray-600">{{ $user->name }}</span> upload privileges.
+                </p>
+
+                <form method="POST" action="{{ route('admin.users.promote-classrep', $user->id) }}">
+                    @csrf
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Class Name</label>
+                    <input type="text" name="class_name" required
+                        placeholder="e.g. BBIT Year 3"
+                        class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+
+                    <div class="flex gap-3">
+                        <button type="button"
+                            onclick="document.getElementById('promote-modal-{{ $user->id }}').classList.add('hidden')"
+                            class="flex-1 border border-gray-300 text-gray-600 font-medium py-2 rounded-lg text-sm hover:bg-gray-50 transition">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                            class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-lg text-sm transition">
+                            Promote
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    @endif
+@endforeach
 
 @endsection
