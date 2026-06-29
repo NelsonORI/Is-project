@@ -5,7 +5,7 @@
 @section('content')
 
 {{-- ==================== STATS ROW ==================== --}}
-<div class="grid grid-cols-3 gap-4 mb-6">
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
 
     <div class="bg-white border border-gray-200 rounded-xl px-6 py-5">
         <p class="text-sm text-gray-500 mb-1">Flashcard sets available</p>
@@ -32,7 +32,7 @@
     <form method="GET" action="{{ route('student.dashboard') }}">
 
         {{-- Dropdowns row --}}
-        <div class="grid grid-cols-4 gap-3 mb-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
 
             {{-- Unit Code --}}
             <div>
@@ -93,7 +93,7 @@
         </div>
 
         {{-- Keyword search + buttons --}}
-        <div class="flex gap-2">
+        <div class="flex flex-col sm:flex-row gap-2">
             <input
                 type="text"
                 name="keyword"
@@ -147,7 +147,7 @@
         <p class="text-gray-400 text-sm">No flashcard sets found. Try adjusting your search filters.</p>
     </div>
 @else
-    <div class="grid grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         @foreach($displaySets as $document)
             @php
                 $firstCard = $document->flashcards->first();

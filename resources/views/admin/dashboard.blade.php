@@ -11,7 +11,7 @@
 @endif
 
 {{-- Stats Row --}}
-<div class="grid grid-cols-4 gap-4 mb-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
     <div class="bg-white border border-gray-200 rounded-xl px-6 py-5">
         <p class="text-sm text-gray-500 mb-1">Total students</p>
         <p class="text-3xl font-bold text-indigo-600">{{ $totalStudents }}</p>
@@ -30,7 +30,7 @@
     </div>
 </div>
 
-<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
 
     {{-- Recent Users --}}
     <div class="bg-white border border-gray-200 rounded-xl px-6 py-5">
