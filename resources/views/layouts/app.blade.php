@@ -48,18 +48,6 @@
                             <span>🔍</span> Browse flashcards
                         </a>
                     </li>
-                    <li>
-                        <a href="#"
-                            class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
-                            <span>🔖</span> Saved sets
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
-                            <span>🕐</span> Recent activity
-                        </a>
-                    </li>
 
                     {{-- Class rep only --}}
                     @if($student->role === 'class_rep')
@@ -68,12 +56,6 @@
                             class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
                             {{ request()->routeIs('classrep.upload*') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}">
                                 <span>📤</span> Upload Paper
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#"
-                            class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
-                                <span>📁</span> My Uploads
                             </a>
                         </li>
                     @endif
@@ -89,12 +71,6 @@
                         <a href="#"
                             class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
                             <span>👤</span> Profile
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
-                            <span>⚙️</span> Settings
                         </a>
                     </li>
                 </ul>
