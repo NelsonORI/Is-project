@@ -31,66 +31,68 @@
 
 {{-- Documents Table --}}
 <div class="bg-white border border-gray-200 rounded-xl px-6 py-5">
-    <table class="w-full text-sm">
-        <thead>
-            <tr class="text-xs text-gray-400 border-b border-gray-100">
-                <th class="text-left pb-2 font-medium">Filename</th>
-                <th class="text-left pb-2 font-medium">Unit</th>
-                <th class="text-left pb-2 font-medium">Uploaded By</th>
-                <th class="text-left pb-2 font-medium">Cards</th>
-                <th class="text-left pb-2 font-medium">Status</th>
-                <th class="text-left pb-2 font-medium">Date</th>
-                <th class="text-right pb-2 font-medium">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($documents as $document)
-                @php
-                    $meta = $document->flashcards->first()?->metadata;
-                @endphp
-                <tr class="border-b border-gray-50">
-                    <td class="py-3 text-gray-700 max-w-xs truncate">{{ $document->original_filename }}</td>
-                    <td class="py-3">
-                        @if($meta)
-                            <span class="bg-indigo-100 text-indigo-700 text-xs font-medium px-2 py-0.5 rounded-full">
-                                {{ $meta->unit_code }}
-                            </span>
-                        @else
-                            <span class="text-gray-300 text-xs">—</span>
-                        @endif
-                    </td>
-                    <td class="py-3 text-gray-500">{{ $document->classRep->student->name ?? '—' }}</td>
-                    <td class="py-3 text-gray-500">{{ $document->flashcards->count() }} cards</td>
-                    <td class="py-3">
-                        @if($document->processing_status === 'published')
-                            <span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-0.5 rounded-full">Published</span>
-                        @elseif($document->processing_status === 'ocr_done')
-                            <span class="bg-amber-100 text-amber-700 text-xs font-medium px-2 py-0.5 rounded-full">OCR Done</span>
-                        @else
-                            <span class="bg-gray-100 text-gray-600 text-xs font-medium px-2 py-0.5 rounded-full">Processing</span>
-                        @endif
-                    </td>
-                    <td class="py-3 text-gray-400 text-xs">
-                        {{ \Carbon\Carbon::parse($document->uploaded_at)->format('d M Y') }}
-                    </td>
-                    <td class="py-3 text-right">
-                        <form method="POST" action="{{ route('admin.documents.destroy', $document->id) }}"
-                            onsubmit="return confirm('Delete this document and all its flashcards? This cannot be undone.');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-xs text-red-600 border border-red-200 hover:bg-red-50 rounded px-2 py-1">
-                                Delete
-                            </button>
-                        </form>
-                    </td>
+    <div class="overflow-x-auto">
+        <table class="w-full text-sm min-w-[700px]">
+            <thead>
+                <tr class="text-xs text-gray-400 border-b border-gray-100">
+                    <th class="text-left pb-2 font-medium">Filename</th>
+                    <th class="text-left pb-2 font-medium">Unit</th>
+                    <th class="text-left pb-2 font-medium">Uploaded By</th>
+                    <th class="text-left pb-2 font-medium">Cards</th>
+                    <th class="text-left pb-2 font-medium">Status</th>
+                    <th class="text-left pb-2 font-medium">Date</th>
+                    <th class="text-right pb-2 font-medium">Actions</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach($documents as $document)
+                    @php
+                        $meta = $document->flashcards->first()?->metadata;
+                    @endphp
+                    <tr class="border-b border-gray-50">
+                        <td class="py-3 text-gray-700 max-w-xs truncate">{{ $document->original_filename }}</td>
+                        <td class="py-3">
+                            @if($meta)
+                                <span class="bg-indigo-100 text-indigo-700 text-xs font-medium px-2 py-0.5 rounded-full">
+                                    {{ $meta->unit_code }}
+                                </span>
+                            @else
+                                <span class="text-gray-300 text-xs">—</span>
+                            @endif
+                        </td>
+                        <td class="py-3 text-gray-500">{{ $document->classRep->student->name ?? '—' }}</td>
+                        <td class="py-3 text-gray-500">{{ $document->flashcards->count() }} cards</td>
+                        <td class="py-3">
+                            @if($document->processing_status === 'published')
+                                <span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-0.5 rounded-full">Published</span>
+                            @elseif($document->processing_status === 'ocr_done')
+                                <span class="bg-amber-100 text-amber-700 text-xs font-medium px-2 py-0.5 rounded-full">OCR Done</span>
+                            @else
+                                <span class="bg-gray-100 text-gray-600 text-xs font-medium px-2 py-0.5 rounded-full">Processing</span>
+                            @endif
+                        </td>
+                        <td class="py-3 text-gray-400 text-xs">
+                            {{ \Carbon\Carbon::parse($document->uploaded_at)->format('d M Y') }}
+                        </td>
+                        <td class="py-3 text-right">
+                            <form method="POST" action="{{ route('admin.documents.destroy', $document->id) }}"
+                                onsubmit="return confirm('Delete this document and all its flashcards? This cannot be undone.');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-xs text-red-600 border border-red-200 hover:bg-red-50 rounded px-2 py-1">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
     <div class="mt-4">
         {{ $documents->links() }}
     </div>
 </div>
 
-@endsection
+@endsection 
