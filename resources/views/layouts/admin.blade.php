@@ -23,7 +23,7 @@
 <div class="lg:hidden bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between sticky top-0 z-30">
     <span class="font-bold text-gray-800 text-base">Strathmore Flashcards</span>
     <div class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center">
+        <div class="w-8 h-8 rounded-full bg-su-blue text-white text-xs font-bold flex items-center justify-center">
             {{ strtoupper(substr($admin->name, 0, 2)) }}
         </div>
         <button onclick="toggleSidebar()" class="text-gray-600 focus:outline-none">
@@ -140,7 +140,7 @@
                 </button>
                 <div class="flex items-center gap-2">
                     <span class="text-sm text-gray-700">{{ $admin->name }}</span>
-                    <div class="w-8 h-8 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center">
+                    <div class="w-8 h-8 rounded-full bg-su-blue text-white text-xs font-bold flex items-center justify-center">
                         {{ strtoupper(substr($admin->name, 0, 2)) }}
                     </div>
                 </div>

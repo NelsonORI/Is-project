@@ -24,7 +24,7 @@
     <h2 class="text-sm font-semibold text-gray-700 mb-4">Quick Actions</h2>
     <div class="flex gap-3">
         <a href="{{ route('classrep.upload.step1') }}"
-            class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition">
+            class="bg-su-blue hover:bg-su-blue/90 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition">
             + Upload Past Paper
         </a>
         <a href="#"
@@ -61,7 +61,7 @@
                             {{ $document->original_filename }}
                         </td>
                         <td class="py-3">
-                            <span class="bg-indigo-100 text-indigo-700 text-xs font-semibold px-2 py-0.5 rounded">
+                            <span class="bg-su-blue-light text-su-blue text-xs font-semibold px-2 py-0.5 rounded">
                                 {{ $meta->unit_code ?? '—' }}
                             </span>
                         </td>
@@ -72,7 +72,7 @@
                         </td>
                         <td class="py-3">
                             <a href="{{ route('student.study', $document->id) }}"
-                                class="text-indigo-600 hover:underline text-xs font-medium">
+                                class="text-su-blue hover:underline text-xs font-medium">
                                 Study
                             </a>
                         </td>

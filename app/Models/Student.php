@@ -6,10 +6,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Student extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable, HasUuids;
+    use Notifiable, HasUuids, HasFactory;
 
     protected $table = 'students';
 

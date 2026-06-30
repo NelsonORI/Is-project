@@ -28,7 +28,7 @@
                 <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zm0 16a2 2 0 01-2-2h4a2 2 0 01-2 2z"/>
             </svg>
         </button>
-        <div class="w-8 h-8 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center">
+        <div class="w-8 h-8 rounded-full bg-su-blue text-white text-xs font-bold flex items-center justify-center">
             {{ strtoupper(substr($student->name, 0, 2)) }}
         </div>
         <button onclick="toggleSidebar()" class="text-gray-600 focus:outline-none">
@@ -170,7 +170,7 @@
                 </button>
                 <div class="flex items-center gap-2">
                     <span class="text-sm text-gray-700">{{ $student->name }}</span>
-                    <div class="w-8 h-8 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center">
+                    <div class="w-8 h-8 rounded-full bg-su-blue text-white text-xs font-bold flex items-center justify-center">
                         {{ strtoupper(substr($student->name, 0, 2)) }}
                     </div>
                 </div>
