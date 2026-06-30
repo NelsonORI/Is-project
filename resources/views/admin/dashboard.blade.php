@@ -14,11 +14,11 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
     <div class="bg-white border border-gray-200 rounded-xl px-6 py-5">
         <p class="text-sm text-gray-500 mb-1">Total students</p>
-        <p class="text-3xl font-bold text-indigo-600">{{ $totalStudents }}</p>
+        <p class="text-3xl font-bold text-su-blue">{{ $totalStudents }}</p>
     </div>
     <div class="bg-white border border-gray-200 rounded-xl px-6 py-5">
         <p class="text-sm text-gray-500 mb-1">Class reps</p>
-        <p class="text-3xl font-bold text-teal-600">{{ $totalClassReps }}</p>
+        <p class="text-3xl font-bold text-su-gold">{{ $totalClassReps }}</p>
     </div>
     <div class="bg-white border border-gray-200 rounded-xl px-6 py-5">
         <p class="text-sm text-gray-500 mb-1">Documents uploaded</p>
@@ -26,7 +26,7 @@
     </div>
     <div class="bg-white border border-gray-200 rounded-xl px-6 py-5">
         <p class="text-sm text-gray-500 mb-1">Unmatched searches</p>
-        <p class="text-3xl font-bold text-red-600">{{ $unmatchedSearches }}</p>
+        <p class="text-3xl font-bold text-su-red">{{ $unmatchedSearches }}</p>
     </div>
 </div>
 
@@ -36,7 +36,7 @@
     <div class="bg-white border border-gray-200 rounded-xl px-6 py-5">
         <div class="flex items-center justify-between mb-4">
             <h2 class="text-sm font-semibold text-gray-700">Recent users</h2>
-            <a href="{{ route('admin.users') }}" class="text-xs text-indigo-600 hover:underline">View all →</a>
+            <a href="{{ route('admin.users') }}" class="text-xs text-su-blue hover:underline">View all →</a>
         </div>
 
         @if($recentUsers->isEmpty())
@@ -144,10 +144,10 @@
                 <div class="flex items-center gap-3 text-sm">
                     <span class="text-gray-600 w-32 truncate">{{ $gap->query_string }}</span>
                     <div class="flex-1 h-1.5 bg-gray-100 rounded-full">
-                        <div class="h-1.5 bg-red-400 rounded-full" style="width: {{ round($gap->total / $maxGapCount * 100) }}%"></div>
+                        <div class="h-1.5 bg-su-red rounded-full" style="width: {{ round($gap->total / $maxGapCount * 100) }}%"></div>
                     </div>
                     <span class="text-red-600 font-semibold w-8 text-right">{{ $gap->total }}</span>
-                    <span class="bg-amber-100 text-amber-700 text-xs font-medium px-2 py-0.5 rounded-full">Missing</span>
+                    <span class="bg-su-gold-light text-su-gold text-xs font-medium px-2 py-0.5 rounded-full">Missing</span>
                 </div>
             @endforeach
         </div>

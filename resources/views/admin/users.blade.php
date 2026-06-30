@@ -30,7 +30,7 @@
         </select>
 
         <button type="submit"
-            class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-5 py-2 rounded-lg transition">
+            class="bg-su-blue hover:bg-su-blue/90 text-white text-sm font-semibold px-5 py-2 rounded-lg transition">
             Filter
         </button>
         <a href="{{ route('admin.users') }}"
@@ -62,7 +62,7 @@
                         <td class="py-3 text-gray-500">{{ $user->programme }} · Yr {{ $user->year_of_study }}</td>
                         <td class="py-3">
                             @if($user->role === 'class_rep')
-                                <span class="bg-indigo-100 text-indigo-700 text-xs font-medium px-2 py-0.5 rounded-full">Class Rep</span>
+                                <span class="bg-su-blue hover:bg-su-blue/90 text-white text-sm font-semibold px-5 py-2 rounded-lg transition">Class Rep</span>
                             @else
                                 <span class="bg-gray-100 text-gray-600 text-xs font-medium px-2 py-0.5 rounded-full">Student</span>
                             @endif
