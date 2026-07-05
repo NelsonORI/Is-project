@@ -9,7 +9,14 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: { primary: '#4F46E5' }
+                    colors: {
+                        'su-blue':   '#2D3092',
+                        'su-gold':   '#D4A017',
+                        'su-red':    '#E8402A',
+                        'su-blue-light': '#E8E9F5',
+                        'su-gold-light': '#FBF3DC',
+                        'su-red-light':  '#FDECEA',
+                    }
                 }
             }
         }
@@ -21,7 +28,10 @@
 
 {{-- Mobile top bar --}}
 <div class="lg:hidden bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between sticky top-0 z-30">
-    <span class="font-bold text-gray-800 text-base">Strathmore Flashcards</span>
+    <div class="flex items-center gap-2">
+        <img src="{{ asset('images/logo.png') }}" alt="Strathmore University" class="h-7 w-auto">
+        <span class="font-bold text-gray-800 text-sm">Strathmore Flashcards</span>
+    </div>
     <div class="flex items-center gap-3">
         <button class="text-amber-400">
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -55,6 +65,7 @@
 
         {{-- Logo --}}
         <div class="px-5 py-5 border-b border-gray-100 hidden lg:block">
+            <img src="{{ asset('images/logo.png') }}" alt="Strathmore University" class="h-9 w-auto">
             <span class="font-bold text-gray-800 text-base">Strathmore Flashcards</span>
         </div>
 
@@ -77,7 +88,7 @@
                         <a href="{{ $student->role === 'class_rep' ? route('classrep.dashboard') : route('student.dashboard') }}"
                            onclick="closeSidebar()"
                            class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
-                           {{ request()->routeIs('student.dashboard') || request()->routeIs('classrep.dashboard') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}">
+                           {{ request()->routeIs('student.dashboard') || request()->routeIs('classrep.dashboard') ? 'bg-su-blue-light text-su-blue' : 'text-gray-600 hover:bg-gray-100' }}">
                             <span>📊</span> Dashboard
                         </a>
                     </li>
@@ -88,53 +99,17 @@
                             <span>🔍</span> Browse flashcards
                         </a>
                     </li>
-                    <li>
-                        <a href="#" onclick="closeSidebar()"
-                           class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
-                            <span>🔖</span> Saved sets
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" onclick="closeSidebar()"
-                           class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
-                            <span>🕐</span> Recent activity
-                        </a>
-                    </li>
 
                     @if($student->role === 'class_rep')
                         <li class="pt-1 border-t border-gray-100 mt-2">
                             <a href="{{ route('classrep.upload.step1') }}"
                                onclick="closeSidebar()"
                                class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
-                               {{ request()->routeIs('classrep.upload*') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}">
+                               {{ request()->routeIs('classrep.upload*') ? 'bg-su-blue-light text-su-blue' : 'text-gray-600 hover:bg-gray-100' }}">
                                 <span>📤</span> Upload Paper
                             </a>
                         </li>
-                        <li>
-                            <a href="#" onclick="closeSidebar()"
-                               class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
-                                <span>📁</span> My Uploads
-                            </a>
-                        </li>
                     @endif
-                </ul>
-            </div>
-
-            <div>
-                <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest px-2 mb-2">Account</p>
-                <ul class="space-y-1">
-                    <li>
-                        <a href="#" onclick="closeSidebar()"
-                           class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
-                            <span>👤</span> Profile
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" onclick="closeSidebar()"
-                           class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
-                            <span>⚙️</span> Settings
-                        </a>
-                    </li>
                 </ul>
             </div>
         </nav>
@@ -144,7 +119,7 @@
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit"
-                    class="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm font-medium text-red-500 hover:bg-red-50 transition">
+                    class="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm font-medium text-su-red hover:bg-su-red-light transition">
                     <span>🚪</span> Log out
                 </button>
             </form>

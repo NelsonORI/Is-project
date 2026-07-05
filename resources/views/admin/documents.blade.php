@@ -12,14 +12,15 @@
 {{-- Filters --}}
 <div class="bg-white border border-gray-200 rounded-xl px-6 py-4 mb-6">
     <form method="GET" action="{{ route('admin.documents') }}" class="flex gap-3">
-        <select name="status" class="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
+        <select name="status"
+            class="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-su-blue">
             <option value="">All statuses</option>
             <option value="published" {{ request('status') === 'published' ? 'selected' : '' }}>Published</option>
             <option value="processing" {{ request('status') === 'processing' ? 'selected' : '' }}>Processing</option>
             <option value="ocr_done" {{ request('status') === 'ocr_done' ? 'selected' : '' }}>OCR Done</option>
         </select>
         <button type="submit"
-            class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-5 py-2 rounded-lg transition">
+            class="bg-su-blue hover:bg-su-blue/90 text-white text-sm font-semibold px-5 py-2 rounded-lg transition">
             Filter
         </button>
         <a href="{{ route('admin.documents') }}"
@@ -49,37 +50,51 @@
                     @php
                         $meta = $document->flashcards->first()?->metadata;
                     @endphp
-                    <tr class="border-b border-gray-50">
-                        <td class="py-3 text-gray-700 max-w-xs truncate">{{ $document->original_filename }}</td>
+                    <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
+                        <td class="py-3 text-gray-700 max-w-xs truncate">
+                            {{ $document->original_filename }}
+                        </td>
                         <td class="py-3">
                             @if($meta)
-                                <span class="bg-indigo-100 text-indigo-700 text-xs font-medium px-2 py-0.5 rounded-full">
+                                <span class="bg-su-blue-light text-su-blue text-xs font-medium px-2 py-0.5 rounded-full">
                                     {{ $meta->unit_code }}
                                 </span>
                             @else
                                 <span class="text-gray-300 text-xs">—</span>
                             @endif
                         </td>
-                        <td class="py-3 text-gray-500">{{ $document->classRep->student->name ?? '—' }}</td>
-                        <td class="py-3 text-gray-500">{{ $document->flashcards->count() }} cards</td>
+                        <td class="py-3 text-gray-500">
+                            {{ $document->classRep->student->name ?? '—' }}
+                        </td>
+                        <td class="py-3 text-gray-500">
+                            {{ $document->flashcards->count() }} cards
+                        </td>
                         <td class="py-3">
                             @if($document->processing_status === 'published')
-                                <span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-0.5 rounded-full">Published</span>
+                                <span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-0.5 rounded-full">
+                                    Published
+                                </span>
                             @elseif($document->processing_status === 'ocr_done')
-                                <span class="bg-amber-100 text-amber-700 text-xs font-medium px-2 py-0.5 rounded-full">OCR Done</span>
+                                <span class="bg-su-gold-light text-su-gold text-xs font-medium px-2 py-0.5 rounded-full">
+                                    OCR Done
+                                </span>
                             @else
-                                <span class="bg-gray-100 text-gray-600 text-xs font-medium px-2 py-0.5 rounded-full">Processing</span>
+                                <span class="bg-gray-100 text-gray-600 text-xs font-medium px-2 py-0.5 rounded-full">
+                                    Processing
+                                </span>
                             @endif
                         </td>
                         <td class="py-3 text-gray-400 text-xs">
                             {{ \Carbon\Carbon::parse($document->uploaded_at)->format('d M Y') }}
                         </td>
                         <td class="py-3 text-right">
-                            <form method="POST" action="{{ route('admin.documents.destroy', $document->id) }}"
+                            <form method="POST"
+                                action="{{ route('admin.documents.destroy', $document->id) }}"
                                 onsubmit="return confirm('Delete this document and all its flashcards? This cannot be undone.');">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-xs text-red-600 border border-red-200 hover:bg-red-50 rounded px-2 py-1">
+                                <button type="submit"
+                                    class="text-xs text-su-red border border-su-red/30 hover:bg-su-red-light rounded px-2 py-1 transition">
                                     Delete
                                 </button>
                             </form>
@@ -95,4 +110,4 @@
     </div>
 </div>
 
-@endsection 
+@endsection
