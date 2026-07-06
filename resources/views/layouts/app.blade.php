@@ -33,11 +33,6 @@
         <span class="font-bold text-gray-800 text-sm">Strathmore Flashcards</span>
     </div>
     <div class="flex items-center gap-3">
-        <button class="text-amber-400">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zm0 16a2 2 0 01-2-2h4a2 2 0 01-2 2z"/>
-            </svg>
-        </button>
         <div class="w-8 h-8 rounded-full bg-su-blue text-white text-xs font-bold flex items-center justify-center">
             {{ strtoupper(substr($student->name, 0, 2)) }}
         </div>
@@ -138,11 +133,6 @@
                 </span>
             </div>
             <div class="flex items-center gap-4">
-                <button class="relative text-amber-400 hover:text-amber-500">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zm0 16a2 2 0 01-2-2h4a2 2 0 01-2 2z"/>
-                    </svg>
-                </button>
                 <div class="flex items-center gap-2">
                     <span class="text-sm text-gray-700">{{ $student->name }}</span>
                     <div class="w-8 h-8 rounded-full bg-su-blue text-white text-xs font-bold flex items-center justify-center">
