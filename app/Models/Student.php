@@ -36,6 +36,12 @@ class Student extends Authenticatable implements MustVerifyEmail
         return $this->password_hash;
     }
 
+    // Tell Laravel the name of the password field
+    public function getAuthPasswordName(): string
+    {
+        return 'password_hash';
+    }
+    
     // Relationships
     public function classRep()
     {

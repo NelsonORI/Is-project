@@ -37,7 +37,13 @@
 
         {{-- Password --}}
         <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <div class="flex items-center justify-between mb-1">
+                <label class="block text-sm font-medium text-gray-700">Password</label>
+                <a href="{{ route('password.request') }}"
+                    class="text-xs hover:underline" style="color: #2D3092;">
+                    Forgot password?
+                </a>
+            </div>
             <input
                 type="password"
                 name="password"
