@@ -30,10 +30,10 @@
         </select>
 
         <button type="submit"
-            class="bg-su-blue hover:bg-su-blue/90 text-white text-sm font-semibold px-5 py-2 rounded-lg transition">
+            class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-5 py-2 rounded-lg transition">
             Filter
         </button>
-        <a href="{{ route('admin.users') }}"
+        <a href="{{ request()->routeIs('admin.classreps') ? route('admin.classreps') : route('admin.users') }}"
             class="border border-gray-300 text-gray-600 text-sm font-medium px-4 py-2 rounded-lg hover:bg-gray-50 transition">
             Clear
         </a>
@@ -57,16 +57,25 @@
             <tbody>
                 @foreach($users as $user)
                     <tr class="border-b border-gray-50">
-                        <td class="py-3 text-gray-700">{{ $user->name }}</td>
+                        {{-- 1. Name --}}
+                        <td class="py-3 text-gray-700 font-medium">{{ $user->name }}</td>
+                        
+                        {{-- 2. Email --}}
                         <td class="py-3 text-gray-500">{{ $user->email }}</td>
+                        
+                        {{-- 3. Programme --}}
                         <td class="py-3 text-gray-500">{{ $user->programme }} · Yr {{ $user->year_of_study }}</td>
+                        
+                        {{-- 4. Role --}}
                         <td class="py-3">
                             @if($user->role === 'class_rep')
-                                <span class="bg-su-blue hover:bg-su-blue/90 text-white text-sm font-semibold px-5 py-2 rounded-lg transition">Class Rep</span>
+                                <span class="bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">Class Rep</span>
                             @else
                                 <span class="bg-gray-100 text-gray-600 text-xs font-medium px-2 py-0.5 rounded-full">Student</span>
                             @endif
                         </td>
+                        
+                        {{-- 5. Status --}}
                         <td class="py-3">
                             @if($user->status === 'active')
                                 <span class="bg-green-100 text-green-700 text-xs font-medium px-2 py-0.5 rounded-full">Active</span>
@@ -76,9 +85,22 @@
                                 <span class="bg-red-100 text-red-700 text-xs font-medium px-2 py-0.5 rounded-full">Suspended</span>
                             @endif
                         </td>
+                        
+                        {{-- 6. Actions --}}
                         <td class="py-3 text-right">
                             <div class="flex gap-1.5 justify-end">
 
+                                {{-- Account Approval Button --}}
+                                @if($user->status === 'pending')
+                                    <form method="POST" action="{{ route('admin.users.approve', $user->id) }}">
+                                        @csrf
+                                        <button type="submit" class="text-xs text-emerald-700 border border-emerald-200 hover:bg-emerald-50 rounded px-2 py-1 font-medium">
+                                            Approve
+                                        </button>
+                                    </form>
+                                @endif
+
+                                {{-- Activation/Suspension Action --}}
                                 @if($user->status === 'suspended')
                                     <form method="POST" action="{{ route('admin.users.activate', $user->id) }}">
                                         @csrf
@@ -96,38 +118,7 @@
                                     </form>
                                 @endif
 
-                                @if($user->role === 'class_rep')
-                                    <form method="POST" action="{{ route('admin.users.revoke-classrep', $user->id) }}"
-                                        onsubmit="return confirm('Revoke class rep status?');">
-                                        @csrf
-                                        <button type="submit" class="text-xs text-gray-600 border border-gray-200 hover:bg-gray-50 rounded px-2 py-1">
-                                            Revoke Rep
-                                        </button>
-                                    </form>
-                                @endif
-
-                            </div>
-                        </td>
-                        <td class="py-3 text-right">
-                            <div class="flex gap-1.5 justify-end">
-
-                                @if($user->status === 'suspended')
-                                    <form method="POST" action="{{ route('admin.users.activate', $user->id) }}">
-                                        @csrf
-                                        <button type="submit" class="text-xs text-green-700 border border-green-200 hover:bg-green-50 rounded px-2 py-1">
-                                            Reactivate
-                                        </button>
-                                    </form>
-                                @else
-                                    <form method="POST" action="{{ route('admin.users.suspend', $user->id) }}"
-                                        onsubmit="return confirm('Suspend this account?');">
-                                        @csrf
-                                        <button type="submit" class="text-xs text-red-600 border border-red-200 hover:bg-red-50 rounded px-2 py-1">
-                                            Suspend
-                                        </button>
-                                    </form>
-                                @endif
-
+                                {{-- Role Modification Actions --}}
                                 @if($user->role === 'class_rep')
                                     <form method="POST" action="{{ route('admin.users.revoke-classrep', $user->id) }}"
                                         onsubmit="return confirm('Revoke class rep status? Their uploaded content will remain on the platform.');">

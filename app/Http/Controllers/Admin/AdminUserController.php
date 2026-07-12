@@ -14,6 +14,15 @@ class AdminUserController extends Controller
     {
         $query = Student::query();
 
+        // Dynamically scope by role if accessed via the Class Reps route
+        if ($request->routeIs('admin.classreps')) {
+            $query->where('role', 'class_rep');
+        } elseif ($request->filled('role')) {
+            // Otherwise, fall back to the manual dropdown filter if selected
+            $query->where('role', $request->role);
+        }
+
+        // Search text filter
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
@@ -23,12 +32,9 @@ class AdminUserController extends Controller
             });
         }
 
+        // Account status filter
         if ($request->filled('status')) {
             $query->where('status', $request->status);
-        }
-
-        if ($request->filled('role')) {
-            $query->where('role', $request->role);
         }
 
         $users = $query->latest('created_at')->paginate(15)->withQueryString();
@@ -48,6 +54,15 @@ class AdminUserController extends Controller
     {
         $student->update(['status' => 'active']);
         return back()->with('success', 'Student account reactivated.');
+    }
+
+    /**
+     * Approve a pending student account.
+     */
+    public function approve(Student $student)
+    {
+        $student->update(['status' => 'active']);
+        return back()->with('success', "Account for {$student->name} has been approved successfully.");
     }
 
     // Revoke class rep status

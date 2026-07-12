@@ -88,6 +88,9 @@ Route::middleware(['auth:student', 'student.active'])->group(function () {
     Route::get('/dashboard', [StudentDashboardController::class, 'index'])
         ->name('student.dashboard');
 
+    Route::get('/study/{document}', [StudyController::class, 'show'])
+        ->name('student.study');
+
 });
 
 /*
@@ -119,19 +122,6 @@ Route::middleware(['auth:student', 'student.active', 'class.rep'])->group(functi
 
 Route::middleware(['auth:admin', 'admin'])->group(function () {
 
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
-
-});
-
-Route::middleware(['auth:student', 'student.active'])->group(function () {
-    Route::get('/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
-    Route::get('/study/{document}', [StudyController::class, 'show'])->name('student.study');
-});
-
-Route::middleware(['auth:admin', 'admin'])->group(function () {
-
     // Dashboard
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
@@ -139,8 +129,9 @@ Route::middleware(['auth:admin', 'admin'])->group(function () {
     Route::post('/admin/classreps/{classRep}/approve', [AdminDashboardController::class, 'approveClassRep'])->name('admin.classreps.approve');
     Route::post('/admin/classreps/{classRep}/reject', [AdminDashboardController::class, 'rejectClassRep'])->name('admin.classreps.reject');
 
-    // Users
+    // Users Management
     Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.users');
+    Route::post('/admin/users/{student}/approve', [AdminUserController::class, 'approve'])->name('admin.users.approve'); 
     Route::post('/admin/users/{student}/suspend', [AdminUserController::class, 'suspend'])->name('admin.users.suspend');
     Route::post('/admin/users/{student}/activate', [AdminUserController::class, 'activate'])->name('admin.users.activate');
     Route::post('/admin/users/{student}/revoke-classrep', [AdminUserController::class, 'revokeClassRep'])->name('admin.users.revoke-classrep');
