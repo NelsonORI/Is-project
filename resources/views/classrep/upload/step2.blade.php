@@ -75,8 +75,8 @@
             {{-- Exam Type --}}
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Exam Type</label>
-                <div class="grid grid-cols-4 gap-3">
-                    @foreach(['Mid-term','Final','Quiz','CAT'] as $type)
+                <div class="grid grid-cols-2 gap-3">
+                    @foreach(['Final','CAT'] as $type)
                         <label class="flex items-center justify-center border rounded-lg py-2 text-sm cursor-pointer
                             {{ old('exam_type') === $type ? 'border-indigo-500 bg-indigo-50 text-indigo-700 font-medium' : 'border-gray-200 text-gray-600 hover:border-indigo-300' }}">
                             <input type="radio" name="exam_type" value="{{ $type }}" class="hidden"

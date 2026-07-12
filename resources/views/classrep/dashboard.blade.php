@@ -27,10 +27,6 @@
             class="bg-su-blue hover:bg-su-blue/90 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition">
             + Upload Past Paper
         </a>
-        <a href="#"
-            class="border border-gray-300 text-gray-600 text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-gray-50 transition">
-            View My Uploads
-        </a>
     </div>
 </div>
 
