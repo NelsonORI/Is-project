@@ -62,7 +62,7 @@
                 <label class="block text-xs text-gray-400 mb-1">Exam type</label>
                 <select name="exam_type"
                     class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-400">
-                    <option value="">Mid / Final / Quiz</option>
+                    <option value="">Cat / Final </option>
                     @foreach($examTypes as $type)
                         <option value="{{ $type }}" {{ request('exam_type') === $type ? 'selected' : '' }}>
                             {{ $type }}
