@@ -5,16 +5,11 @@
 @section('content')
 
 {{-- ==================== STATS ROW ==================== --}}
-<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
 
     <div class="bg-white border border-gray-200 rounded-xl px-6 py-5">
         <p class="text-sm text-gray-500 mb-1">Flashcard sets available</p>
         <p class="text-3xl font-bold text-gray-800">{{ $totalSets }}</p>
-    </div>
-
-    <div class="bg-white border border-gray-200 rounded-xl px-6 py-5">
-        <p class="text-sm text-gray-500 mb-1">Sets studied this week</p>
-        <p class="text-3xl font-bold text-gray-800">{{ $studiedThisWeek }}</p>
     </div>
 
     <div class="bg-white border border-gray-200 rounded-xl px-6 py-5">
